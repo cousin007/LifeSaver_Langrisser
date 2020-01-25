@@ -1,11 +1,21 @@
 import subprocess
 import time
 import random
+import re
 
 class Adb():
+    ADB_PATH = 'Tools/adb' #The path of adb.exe
+
+    # Check the active emulator on PC
+    # @return list of active emulators
+    @staticmethod
+    def check_devices():
+        cmd = [Adb.ADB_PATH, 'devices']
+        res = subprocess.run(cmd, capture_output=True, text=True).stdout
+        return re.findall('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+',res)
+
     def __init__(self,deviceName):
-        ADB_PATH = 'Tools/adb.exe' #The path of adb.exe
-        self.device = [ADB_PATH,'-s',deviceName] # The adb command header ex."adb -s emulator-5555 "
+        self.device = [Adb.ADB_PATH,'-s',deviceName] # The adb command header ex."adb -s emulator-5555 "
 
     # The caller of adb
     def adb_call(self,args,shell=True):
@@ -17,18 +27,17 @@ class Adb():
         subprocess.Popen(cmd)
 
     # Tap action
-    def tap(self, x1=None, y1=None, x2=None, y2=None, point=None):
+    # @param: point: two coordinate 
+    #         range: four coordinate, use to choose random point in range
+    def tap(self, point=None, ranges=None):
         x = None 
         y = None
 
         if point is None:
-            if x2 is None and y2 is None: # exact point
-                x = str(x1)
-                y = str(y1)
-            else: # rand tap within a range
-                x = str(random.randint(x1,x2))
-                y = str(random.randint(y1,y2))
-        else: # Param is a tuple
+            # rand tap within a range
+            x = str(random.randint(ranges[0],ranges[2]))
+            y = str(random.randint(ranges[1],ranges[3]))
+        else: # tap exact point
             x = str(point[0])
             y = str(point[1])
 
@@ -54,4 +63,4 @@ class Adb():
 
 if __name__ == "__main__":
     a = Adb('127.0.0.1:62001')
-    a.screencap('hamburger.png')
+    a.screencap('dev.png')

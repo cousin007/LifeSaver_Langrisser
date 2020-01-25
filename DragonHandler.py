@@ -41,7 +41,7 @@ class DragonHandler():
                 if self.IHA.img_compare((470,430,545,475),'hamburger'):
                     self.ADB.tap(510,450) #食漢堡
                     self.hamburger += 1
-                    print('{} [Dragon Handler]: {} hamburger ate!'.format(systime(), self.hamburger))
+                    print('{} [Dragon Handler]: {} hamburgers ate!'.format(systime(), self.hamburger))
                     time.sleep(1)
                     self.ADB.tap(1100,620)
                     continue                
@@ -70,19 +70,21 @@ class DragonHandler():
                         self.ADB.screencap(str(complete) + '.png', './result/') #結算圖
                         time.sleep(1)
                         self.ADB.tap(1185,670) #離開
+                        print('{} [Dragon Handler]: Round {} completed!'.format(systime(), complete))
                         break
-
-                    time.sleep(30)
+                    
                     check_rds -= 1
-
+                    print('{} [Dragon Handler]: {} times checked, battle in progress'.format(systime(), 10-check_rds))
+                    time.sleep(30)
+                    
                 time.sleep(10)
 
             except:
                 print('Exception catch!')
                 traceback.print_exc(file=sys.stdout)
-                input('Press any key to exit...')
                 break
 
 if __name__ == '__main__':
-    DH = DragonHandler(2)
+    DH = DragonHandler(20)
     DH.run()
+    input('Press any key to exit...')
