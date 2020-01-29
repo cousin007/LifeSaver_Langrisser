@@ -1,6 +1,7 @@
 from AnikiHandler import AnikiHandler
 from DragonHandler import DragonHandler
 from lib.Adb import Adb
+from lib.ImgHashAdaptor import ImgHashAdaptor
 
 import sys
 import json
@@ -12,9 +13,26 @@ class Main():
         try:
             self.load_config()
             self.load_adb()
+            print("[Initial] Completed!")
         except Exception:
             traceback.print_exc(file=sys.stdout)
+            print("[Error] Initial Fail!")
             sys.exit()
+
+        self.user_input = {}
+        self.get_param()
+
+        self.iha = ImgHashAdaptor(self.adb)
+        self.bundle = {
+            'tap_map': self.tap_map,
+            'img_map': self.img_map,
+            'adb': self.adb,
+            'iha': self.iha,
+            'user_input': self.user_input
+        }
+
+        DH = DragonHandler(self.bundle)
+        DH.run()
 
     # Locate the active emulators on the PC
     # Auto create the adb interface if only one is found
@@ -37,14 +55,25 @@ class Main():
     # including the coordinates of tap and screen capture
     def load_config(self):
         print("[Initial] Loading Configuration Files...")
+        # Load map from json format and change to tuple type
         with open('./config/tap_map.json','r') as f:
             self.tap_map = json.load(f)
+            for key,val in self.tap_map.items():
+                self.tap_map[key] = tuple(val)
             print("[Initial] Tap Map... [OK]")
-            # d = tuple(self.tap_map['start'])
-            # print(d)
+
         with open('./config/img_map.json','r') as f:
             self.img_map = json.load(f)
+            for key,val in self.img_map.items():
+                self.img_map[key] = tuple(val)
             print("[Initial] Image Map... [OK]")
+
+    def get_param(self):
+        print('勇者啊! 請聆聽聖劍的召喚...\n啊!請先讓我把話說完\n好吧...這是免費的，這樣好不?')
+        print('女神testing')
+        
+        self.user_input['rounds'] = int(input('rounds: '))
+
 
 Main()
 input('Press any key to exit...')

@@ -6,12 +6,12 @@
 import time
 from lib.Adb import Adb
 from lib.ImgHashAdaptor import ImgHashAdaptor
+from GameHandler import GameHandler
 
-class WatchDog():
+class WatchDog(GameHandler):
 
-    def __init__(self, adb, iha):
-        self.ADB = adb
-        self.IHA = iha
+    def __init__(self,bundle):
+        super().__init__(bundle)
         
     ####################################
     # Checking the auto status, try to #
@@ -22,10 +22,10 @@ class WatchDog():
         count = 0
 
         while not isAuto and count < 3:
-            isAuto = self.IHA.img_compare((18,20,167,60),'auto')
+            isAuto = self.img_compare('battle_auto')
             if not isAuto:
-                print('[Watch Dog]: WOWO! Auto is not ready!')
-                self.ADB.tap(1229,256)
+                print('[Info]: WOWO! Auto is not ready!')
+                self.tap('auto_btn')
             else:
                 print('[Watch Dog]: WOWO! Auto is ready now.')
                 return True

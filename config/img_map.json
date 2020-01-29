@@ -1,5 +1,6 @@
 {
     "index_dragon": [1000,15,1250,60],
+    "hamburger": [470,430,545,475],
     "battle_ready": [1160,650,1249,693],
     "battle_finish": [510,155,760,205],
     "battle_auto": [18,20,167,60]

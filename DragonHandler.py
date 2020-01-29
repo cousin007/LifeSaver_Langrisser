@@ -2,55 +2,53 @@
 # Handling dragon quest of Langrisser #
 #                                     #
 #######################################
-from lib.Adb import Adb
-from lib.ImgHashAdaptor import ImgHashAdaptor
 from WatchDog import WatchDog
+from GameHandler import GameHandler
 
 import sys
 import time
 import threading
 import traceback
 
-class DragonHandler():
+class DragonHandler(GameHandler):
     
-    def __init__(self, rounds):
-        # Working compartments 
-        self.ADB = Adb('127.0.0.1:62001')
-        self.IHA = ImgHashAdaptor(self.ADB,'.\\sample')
-        self.DOG = WatchDog(self.ADB,self.IHA)
+    def __init__(self, bundle):
+        super().__init__(bundle)
 
-        self.rounds = rounds
+        # Working compartments 
+        self.DOG = WatchDog(bundle)
+
+        self.rounds = bundle['user_input']['rounds']
         self.hamburger = 0
 
-    #TODO: Add parent class
-    #       contain function: check state, as same as EventHandler wait_event
+    #TODO:
     #       customize exception
     def run(self):
-        systime = lambda : time.strftime('[%H:%M]', time.localtime())
+        systime = lambda : time.strftime('%H:%M', time.localtime())
         complete = 0
 
         while complete < self.rounds:
             try:
-                if not self.IHA.img_compare((1000,15,1250,60),'index_dragon'):
+                if not self.img_compare('index_dragon'):
                     raise Exception
                 
-                print('{} [Dragon Handler]: Round {} start!'.format(systime(), complete+1))
-                self.ADB.tap(1100,620) #出擊
+                print('{} [Info] 女神試練 Round {} start'.format(systime(), complete+1))
+                self.tap('index_start') #出擊
                 time.sleep(1)
 
-                if self.IHA.img_compare((470,430,545,475),'hamburger'):
-                    self.ADB.tap(510,450) #食漢堡
+                if self.img_compare('hamburger'):
+                    self.tap('hambuger') #食漢堡
                     self.hamburger += 1
-                    print('{} [Dragon Handler]: {} hamburgers ate!'.format(systime(), self.hamburger))
+                    print('{} [Info] {} hamburgers ate!'.format(systime(), self.hamburger))
                     time.sleep(1)
-                    self.ADB.tap(1100,620)
+                    self.tap('index_start') #white space
                     continue                
                 time.sleep(5)
 
-                if not self.IHA.img_compare((1160,650,1249,693),'ready'):
+                if not self.img_compare('battle_ready'):
                     raise Exception
 
-                self.ADB.tap(1205,650) #出擊(戰鬥)
+                self.tap('battle_start') #出擊(戰鬥)
                 time.sleep(5)
 
                 # start watch dog to check auto stage
@@ -62,19 +60,19 @@ class DragonHandler():
                 check_rds = 10 # last 10 check rounds
                 while check_rds > 0:
                     # battle is win
-                    if self.IHA.img_compare((510,155,760,205),'finish'):
+                    if self.img_compare('battle_finish'):
                         complete += 1 
                         for i in range(2):
-                            self.ADB.tap(1185,670) #寶箱
+                            self.tap('battle_finish') #寶箱
                             time.sleep(3)
-                        self.ADB.screencap(str(complete) + '.png', './result/') #結算圖
+                        self.screencap(str(complete), './result/') #結算圖
                         time.sleep(1)
-                        self.ADB.tap(1185,670) #離開
-                        print('{} [Dragon Handler]: Round {} completed!'.format(systime(), complete))
+                        self.tap('battle_finish') #離開
+                        print('{} [Info] 女神試練 Round {} completed'.format(systime(), complete))
                         break
                     
                     check_rds -= 1
-                    print('{} [Dragon Handler]: {} times checked, battle in progress'.format(systime(), 10-check_rds))
+                    print('{} [Info] {} times checked, battle in progress'.format(systime(), 10-check_rds))
                     time.sleep(30)
                     
                 time.sleep(10)
@@ -84,7 +82,3 @@ class DragonHandler():
                 traceback.print_exc(file=sys.stdout)
                 break
 
-if __name__ == '__main__':
-    DH = DragonHandler(20)
-    DH.run()
-    input('Press any key to exit...')

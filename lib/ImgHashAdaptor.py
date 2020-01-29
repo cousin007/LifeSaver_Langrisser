@@ -4,7 +4,7 @@ import time
 from PIL import Image
 
 class ImgHashAdaptor():
-    def __init__(self,adb,sample_path):
+    def __init__(self,adb,sample_path='.\\sample'):
         self.adb = adb
         self.sample_path = sample_path # sample image folder path
         self.sample_hashes = self.load_sample_hashes() # store dhash associate with file names
@@ -47,9 +47,7 @@ class ImgHashAdaptor():
         # print('diff mark: ' + str(dhash - self.sample_hashes[tgt])) # debug
         return dhash - self.sample_hashes[tgt] < 10 if True else False #return comparing result
 
-if __name__ == "__main__":
-    IHA = ImgHashAdaptor('.\\sample')
-    print(IHA.sample_hashes)
+
 
 
 

@@ -3,6 +3,6 @@
     "hambuger": [510,450],
     "battle_start": [1205,650],
     "battle_finish": [1185,670],
-    "battle_auto": [1229,256]
+    "auto_btn": [1229,256]
     
 }
