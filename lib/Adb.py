@@ -24,7 +24,7 @@ class Adb():
         else:
             cmd = self.device + args
         # print(cmd) # debug
-        subprocess.Popen(cmd)
+        subprocess.run(cmd)
 
     # Tap action
     # @param: point: two coordinate 

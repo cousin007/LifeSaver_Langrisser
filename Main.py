@@ -1,5 +1,6 @@
 from AnikiHandler import AnikiHandler
 from DragonHandler import DragonHandler
+from DailyHandler import DailyHandler
 from lib.Adb import Adb
 from lib.ImgHashAdaptor import ImgHashAdaptor
 
@@ -10,6 +11,7 @@ import traceback
 class Main():
 
     def __init__(self):
+        ## Initial Phrase
         try:
             self.load_config()
             self.load_adb()
@@ -19,8 +21,9 @@ class Main():
             print("[Error] Initial Fail!")
             sys.exit()
 
+        ## Get User input
         self.user_input = {}
-        self.get_param()
+        # self.get_param()
 
         self.iha = ImgHashAdaptor(self.adb)
         self.bundle = {
@@ -31,8 +34,11 @@ class Main():
             'user_input': self.user_input
         }
 
-        DH = DragonHandler(self.bundle)
-        DH.run()
+        # DH = DragonHandler(self.bundle)
+        # DH.run()
+
+        daily = DailyHandler(self.bundle)
+        daily.friend_point()
 
     # Locate the active emulators on the PC
     # Auto create the adb interface if only one is found
