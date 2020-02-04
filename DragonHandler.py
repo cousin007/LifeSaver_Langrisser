@@ -18,37 +18,37 @@ class DragonHandler(GameHandler):
         self.rounds = bundle['user_input']['rounds']
         self.hamburger = 0
 
-    #TODO:
-    #       customize exception
     def run(self):
         systime = lambda : time.strftime('%H:%M', time.localtime())
         complete = 0
 
         while complete < self.rounds:
             try:
+                print('{} [Info] 女神試練 Round {} start!'.format(systime(), complete+1))
+                ## 起始點不正確
                 if not self.img_compare('index_dragon'):
                     raise Exception
                 
-                print('{} [Info] 女神試練 Round {} start'.format(systime(), complete+1))
-                self.tap('level_top') #出擊
+                self.tap('level_top') # 最高難度
+                
+                ## 食包
                 time.sleep(1)
-
                 if self.img_compare('hamburger'):
                     self.eat_hamburger()
                     self.hamburger += 1
                     print('{} [Info] {} hamburgers ate!'.format(systime(), self.hamburger))
                     continue   
-                             
-                time.sleep(5)
 
+                ## 開始戰鬥                             
+                time.sleep(5)
                 if not self.img_compare('battle_ready'):
                     raise Exception
 
+                ## 戰鬥結束
                 if self.battle_control(300, 10, 30):
-                    self.tap('battle_finish')
-                    time.sleep(2)
-                    self.tap('battle_finish')
-                    time.sleep(3)
+                    for i in range(2):
+                        self.tap('battle_finish')
+                        time.sleep(3)
                     self.screencap(str(complete), './result/') #結算圖
                     time.sleep(2)
                     self.tap('battle_finish')

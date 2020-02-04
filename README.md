@@ -17,6 +17,10 @@
 3. Paramaters pass to handler change to list
 4. Create all compartments on Main function
 
-### 4/2
+### 3/2
 1. Modualize battle control
 2. abandon watchdog 
+
+### 4/2
+1. Complete Training Feild
+2. Utilize Dragon Handler

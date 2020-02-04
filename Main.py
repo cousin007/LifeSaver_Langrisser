@@ -38,7 +38,8 @@ class Main():
         # DH.run()
 
         daily = DailyHandler(self.bundle)
-        daily.friend_point()
+        # daily.friend_point()
+        daily.training_field()
 
     # Locate the active emulators on the PC
     # Auto create the adb interface if only one is found
