@@ -24,3 +24,8 @@
 ### 4/2
 1. Complete Training Feild
 2. Utilize Dragon Handler
+
+### 6/2
+1. Complete exp flask
+2. DailyHandler Alpha test
+3. Organizate map file
