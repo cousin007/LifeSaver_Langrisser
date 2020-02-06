@@ -1,14 +1,30 @@
 {
+    "index_friend": [45,410],
+    "index_hero": [220,660],
+    "index_hikyou": [1230,235],
+    "index_arena": [1230,330],
+
+    "hikyou_training": [655,300],
+
+    "friend_give": [250,650],
+    "friend_get": [450,650],
+
+    "exp_details": [1230,385],
+    "exp_add": [1040,50],
+    "exp_flask": [430,450],
+    "exp_confirm": [750,480],
+
+    "arena_normal": [230,335],
+    "arena_1":[395,500],
+    "arena_2":[675,500],
+    "arena_3":[955,500],
+
     "level_top": [1100,620],
     "hambuger": [510,450],
     "battle_start": [1205,650],
     "battle_finish": [1185,670],
     "auto_btn": [1229,256],
-    "friend_page": [45,410],
-    "friend_give": [250,650],
-    "friend_get": [450,650],
-    "return_btn": [100,40],
-    "hidden_area": [1230,235],
-    "training_field": [655,260]
+    
+    "return_btn": [100,40]
     
 }

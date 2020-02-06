@@ -43,6 +43,7 @@ class GameHandler():
 
     def battle_control(self, init_wait, loop, loop_wait):
         self.tap('battle_start') 
+        time.sleep(1)
 
         if not self.check_auto():
             raise Exception("自動戰鬥檢測失敗")
