@@ -2,12 +2,10 @@
 # Handling dragon quest of Langrisser #
 #                                     #
 #######################################
-from WatchDog import WatchDog
 from GameHandler import GameHandler
 
 import sys
 import time
-import threading
 import traceback
 
 class DragonHandler(GameHandler):
@@ -15,7 +13,7 @@ class DragonHandler(GameHandler):
     def __init__(self, bundle):
         super().__init__(bundle)
 
-        self.rounds = bundle['user_input']['rounds']
+        self.rounds = bundle['user_inp']['rounds']
         self.hamburger = 0
 
     def run(self):

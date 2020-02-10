@@ -1,44 +1,20 @@
-from lib.Adb import Adb
-from PIL import Image
-from lib.ImgHashAdaptor import hashExtractor
-import imagehash
-import json
-import time
+############################################
+# This is the handler for time limited event
+#
+############################################
+from GameHandler import GameHandler
+
 import sys
+import time
+import traceback
 
-class EventHandler():
-    IMG_BOX = {'invite': (214,212,276,273),
-                'ready': (1160,650,1249,693),
-                'auto': (1200,240,1260,275),
-                'finish': (510,155,759,203)
-                }
+class EventHandler(GameHandler):
 
-    def __init__(self, rounds):
-        self.adb = Adb('127.0.0.1:30054')
-        self.sample_hash = hashExtractor('.\\sample').process()
-        
-        self.rounds = rounds
-    
-    #
-    # Image compare function
-    # @param tgt: target of the checking components
-    #        imgName: the livetime captured image file name
-    #
-    # @reuturn True: image have high simularity
-    #          False: image are totally different 
-    #
-    def img_compare(self, tgt, imgName='checking.png'):
-        self.adb.screencap(imgName) #call Adb capture screen
-        time.sleep(1) #wait for the image save
-        
-        img = Image.open(imgName) #open image
-        area_grey = img.crop(EventHandler.IMG_BOX[tgt]).convert('L')
-        
-        dhash = imagehash.dhash(area_grey)
-        print('diff mark: ' + str(dhash - self.sample_hash[tgt])) # debug
-        return dhash - self.sample_hash[tgt] < 10 if True else False #return comparing result
-    
-    #
+    def __init__(self, bundle):
+        super().__init__(bundle)
+
+        self.rounds = bundle['user_inp']['rounds']
+
     # Wait for invitation
     # @param loop: how many rounds you want to wait
     #        interval: how many seconds for one round
@@ -60,31 +36,43 @@ class EventHandler():
 
     # main process for event handler
     # only call this function to start the special event process
-    def main(self):
-        systime = lambda : time.strftime('[%H:%M:%S]', time.localtime())
+    def run(self):
+        systime = lambda : time.strftime('%H:%M', time.localtime())
+        cpt = 0
 
-        for complete in range(self.rounds):
-            print('{} {} rounds start'.format(systime(), complete+1))
+        while cpt < self.rounds:
+            print('{} [Info] 七音符 Round {} start!'.format(systime(), cpt+1))
+            ## 起始點不正確
+            if not self.img_compare('evt_nanatsu'):
+                raise Exception
             
-            if self.wait_event('invite',6,10): #60sec for invite
-                self.adb.tap(240,240)
-                time.sleep(10)
-                
-                if self.wait_event('ready',4,15): #60sec for ready
-                    self.adb.tap(1205,647)
-                    time.sleep(10)
+            self.tap('evt_onpu')
+            time.sleep(2)
+            self.tap('evt_lv55b')
+            time.sleep(2)
 
-                    if self.wait_event('auto',20,3): #60sec for auto
-                        self.adb.tap(1229,256)
-                        time.sleep(120)
+            ## 食包
+            if self.img_compare('hamburger'):
+                self.eat_hamburger()
+                continue
 
-                        if self.wait_event('finish',20,30): #10min for finish
-                            for i in range(3):
-                                self.adb.tap(1186,669)
-                                time.sleep(3)
+            ## 開始戰鬥                             
+            time.sleep(5)
+            if not self.img_compare('battle_ready'):
+                raise Exception
 
-            print('{} rounds finished\n ------------------------'.format(complete+1))
+            ## 戰鬥結束
+            if self.battle_control(120, 10, 15):
+                for i in range(2):
+                    self.tap('battle_finish')
+                    time.sleep(3)
 
-if __name__ == '__main__':
-    eh = EventHandler(3)
-    eh.main()
+                cpt += 1
+                print('{} [Info] 七音符 Round {} completed'.format(systime(), cpt))
+            else:
+                raise Exception("戰鬥失敗") 
+                        
+            time.sleep(10)
+
+
+        

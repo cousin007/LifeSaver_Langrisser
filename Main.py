@@ -1,6 +1,7 @@
 from AnikiHandler import AnikiHandler
 from DragonHandler import DragonHandler
 from DailyHandler import DailyHandler
+from EventHandler import EventHandler
 from lib.Adb import Adb
 from lib.ImgHashAdaptor import ImgHashAdaptor
 
@@ -22,8 +23,8 @@ class Main():
             sys.exit()
 
         ## Get User input
-        self.user_input = {}
-        # self.get_param()
+        self.user_inp = {}
+        self.get_param()
 
         self.iha = ImgHashAdaptor(self.adb)
         self.bundle = {
@@ -31,14 +32,20 @@ class Main():
             'img_map': self.img_map,
             'adb': self.adb,
             'iha': self.iha,
-            'user_input': self.user_input
+            'user_inp': self.user_inp
         }
 
-        # DH = DragonHandler(self.bundle)
-        # DH.run()
+        ## Construct event flow
+        if self.user_inp['service'] == 1:
+            daily = DailyHandler(self.bundle)
+            daily.run()
+        elif self.user_inp['service'] == 2:
+            dragon = DragonHandler(self.bundle)
+            dragon.run()
+        elif self.user_inp['service'] == 3:
+            evtH = EventHandler(self.bundle)
+            evtH.run()
 
-        daily = DailyHandler(self.bundle)
-        daily.run()
 
     # Locate the active emulators on the PC
     # Auto create the adb interface if only one is found
@@ -57,6 +64,7 @@ class Main():
             self.adb = Adb(devices[0])
             print("[Initial] {} connection established!".format(devices[0]))
         
+
     # Loading all necessary configuration files
     # including the coordinates of tap and screen capture
     def load_config(self):
@@ -74,12 +82,20 @@ class Main():
                 self.img_map[key] = tuple(val)
             print("[Initial] Image Map... [OK]")
 
+
+    ## Get console input of user
+    #
     def get_param(self):
         print('勇者啊! 請聆聽聖劍的召喚...\n啊!請先讓我把話說完\n好吧...這是免費的，這樣好不?')
-        print('女神testing')
         
-        self.user_input['rounds'] = int(input('rounds: '))
+        print('請選擇聖劍精靈:')
+        print('1. 日常任務')
+        print('2. 刷龍')
+        print('3. (活動)七音符')
+        self.user_inp['service'] = int(input('Option: '))
 
+        if self.user_inp['service'] > 1:
+            self.user_inp['rounds'] = int(input('請輸入場數: '))
 
 Main()
 input('Press any key to exit...')

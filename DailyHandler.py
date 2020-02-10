@@ -66,6 +66,20 @@ class DailyHandler(GameHandler):
         self.tap('arena_normal')
         time.sleep(3)
 
+        cpt = 0
+        rounds = 5
+        while cpt < rounds:
+            self.tap('arena_3')
+            time.sleep(2)
+            self.tap('arena_start')
+            time.sleep(5)
+            if not self.img_compare('battle_ready'):
+                raise Exception
+            
+            self.tap('battle_start')
+            
+            
+
     ## 練兵場
     def training_field(self):
         print("[Info] 練兵場...")
@@ -102,6 +116,7 @@ class DailyHandler(GameHandler):
             raise Exception("戰鬥失敗") 
         
         ## 返回大地圖
+        time.sleep(5)
         for i in range(2):
             self.tap('return_btn')
             time.sleep(2)
