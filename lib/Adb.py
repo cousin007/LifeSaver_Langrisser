@@ -63,4 +63,4 @@ class Adb():
 
 if __name__ == "__main__":
     a = Adb('127.0.0.1:62001')
-    a.screencap('dev.png')
+    a.screencap('norres.png')

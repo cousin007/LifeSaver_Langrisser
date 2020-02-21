@@ -43,7 +43,7 @@ class DragonHandler(GameHandler):
                     raise Exception
 
                 ## 戰鬥結束
-                if self.battle_control(300, 10, 30):
+                if self.battle_control(300, 10, 15):
                     for i in range(2):
                         self.tap('battle_finish')
                         time.sleep(3)

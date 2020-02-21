@@ -26,11 +26,13 @@ class DailyHandler(GameHandler):
         super().__init__(bundle)
 
     def run(self):
-        self.exp_flask()
-        time.sleep(3)
-        self.friend_point()
-        time.sleep(3)
-        self.training_field()
+        # self.exp_flask()
+        # time.sleep(3)
+        # self.friend_point()
+        # time.sleep(3)
+        # self.training_field()
+        # time.sleep(3)
+        self.arena()
 
 
     ## 英雄經驗
@@ -69,14 +71,28 @@ class DailyHandler(GameHandler):
         cpt = 0
         rounds = 5
         while cpt < rounds:
+            print("[Info] 競技場第 {}/5 場開始".format(cpt+1))
+            ## 選擇難度 (目前為最右/易)
             self.tap('arena_3')
             time.sleep(2)
             self.tap('arena_start')
             time.sleep(5)
+
+            ## 開始戰鬥
             if not self.img_compare('battle_ready'):
                 raise Exception
             
-            self.tap('battle_start')
+            ## 戰鬥結束
+            if self.battle_control(30, 10, 30, pvp=True):
+                for i in range(3):
+                    self.tap('battle_finish')
+                    time.sleep(3)
+            else:
+                raise Exception("戰鬥失敗") 
+
+            cpt += 1
+            print("[Info] 戰鬥結束")
+            time.sleep(5) 
             
             
 
@@ -89,7 +105,9 @@ class DailyHandler(GameHandler):
         
         ## 入場
         self.tap('index_hikyou')
-        time.sleep(3)
+        time.sleep(2)
+        self.tap('hikyou_dailyevent')
+        time.sleep(2)
         self.tap('hikyou_training')
         
         time.sleep(2)
@@ -108,7 +126,7 @@ class DailyHandler(GameHandler):
             raise Exception
 
         ## 戰鬥結束
-        if self.battle_control(120, 5, 30):
+        if self.battle_control(120, 5, 15):
             for i in range(3):
                 self.tap('battle_finish')
                 time.sleep(5)

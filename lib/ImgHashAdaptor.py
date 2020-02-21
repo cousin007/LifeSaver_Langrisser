@@ -31,21 +31,21 @@ class ImgHashAdaptor():
         return sample_hashes
 
     # Image compare function
-    # @param coordinates: the turple of coordinates in the image
+    # @param coords: the turple of coords in the image
     #        tgt: name of the sample
     #        imgName: the livetime captured image file name
     #
     # @reuturn True: image have high simularity
     #          False: image are totally different 
-    def img_compare(self, coordinates, tgt, imgName='checking.png'):
+    def img_compare(self, coords, tgt, imgName='checking.png'):
         self.adb.screencap(imgName) #call Adb capture screen
         time.sleep(1) #wait for the image save
         
         img = Image.open(imgName) #open image
-        area_grey = img.crop(coordinates).convert('L') 
+        area_grey = img.crop(coords).convert('L') 
         dhash = imagehash.dhash(area_grey)
-        # print('diff mark: ' + str(dhash - self.sample_hashes[tgt])) # debug
-        return dhash - self.sample_hashes[tgt] < 10 if True else False #return comparing result
+        print('diff mark: ' + str(dhash - self.sample_hashes[tgt])) # debug
+        return dhash - self.sample_hashes[tgt] < 15 if True else False #return comparing result
 
 
 
