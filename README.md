@@ -29,3 +29,10 @@
 1. Complete exp flask
 2. DailyHandler Alpha test
 3. Organizate map file
+
+### 21/2
+1. 七夕 event finish
+2. Arena beta test
+3. Change the image compare approach
+4. Add offset function on image compare
+5. Fix position problem of hikyou
