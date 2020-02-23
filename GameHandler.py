@@ -22,7 +22,8 @@ class GameHandler():
     # 
     # @return: True if the image is nearly same
     def img_compare(self, img_target, offset_x=None, offset_y=None):
-        coords = self.img_map[img_target]
+        coords = self.img_map[img_target].copy()
+
         if offset_x:
             coords[0] += offset_x
             coords[2] += offset_x
@@ -31,6 +32,7 @@ class GameHandler():
             coords[1] += offset_y
             coords[3] += offset_y
 
+        print(coords) #debug
         return self.iha.img_compare(tuple(coords), img_target)
 
     def tap(self,tap_target):
@@ -59,7 +61,7 @@ class GameHandler():
 
     def battle_control(self, init_wait, loop, loop_wait, pvp=False):
         self.tap('battle_start') 
-        time.sleep(1)
+        time.sleep(2)
 
         # Need auto battle
         if not pvp:
@@ -70,7 +72,7 @@ class GameHandler():
         check_count = 0
         while check_count < loop:
             # distinguish pvp and pve
-            finish = pvp if self.img_compare('battle_finish',offset_y=-25) else self.img_compare('battle_finish')
+            finish = self.img_compare('battle_finish') if not pvp else self.img_compare('battle_finish',offset_y=-25)
 
             if finish:
                 return True
@@ -78,3 +80,4 @@ class GameHandler():
                 check_count += 1
                 time.sleep(loop_wait)
         return False
+

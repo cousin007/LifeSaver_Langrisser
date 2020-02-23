@@ -26,13 +26,14 @@ class DailyHandler(GameHandler):
         super().__init__(bundle)
 
     def run(self):
-        # self.exp_flask()
-        # time.sleep(3)
-        # self.friend_point()
-        # time.sleep(3)
-        # self.training_field()
-        # time.sleep(3)
+        self.exp_flask()
+        time.sleep(3)
+        self.friend_point()
+        time.sleep(3)
+        self.training_field()
+        time.sleep(3)
         self.arena()
+        # self.debug()
 
 
     ## 英雄經驗
@@ -76,6 +77,11 @@ class DailyHandler(GameHandler):
             self.tap('arena_3')
             time.sleep(2)
             self.tap('arena_start')
+            time.sleep(2)
+
+            ## 第一次提示視窗
+            if cpt == 0:
+                self.tap('arena_confirm')
             time.sleep(5)
 
             ## 開始戰鬥
@@ -83,10 +89,10 @@ class DailyHandler(GameHandler):
                 raise Exception
             
             ## 戰鬥結束
-            if self.battle_control(30, 10, 30, pvp=True):
+            if self.battle_control(35, 10, 40, pvp=True):
                 for i in range(3):
                     self.tap('battle_finish')
-                    time.sleep(3)
+                    time.sleep(2)
             else:
                 raise Exception("戰鬥失敗") 
 
@@ -94,6 +100,10 @@ class DailyHandler(GameHandler):
             print("[Info] 戰鬥結束")
             time.sleep(5) 
             
+            ## 點寶箱 TODO:而家係迷都禁
+            for i in range(2):
+                self.tap('battle_finish')
+                time.sleep(2)
             
 
     ## 練兵場
@@ -157,3 +167,8 @@ class DailyHandler(GameHandler):
         self.tap('friend_get')
         time.sleep(2)
         self.tap('return_btn')
+
+    def debug(self):
+        # res = self.img_compare('battle_finish',offset_y=-25)
+        # print(res)
+        self.battle_control(1,1,1,pvp=True)

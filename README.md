@@ -36,3 +36,10 @@
 3. Change the image compare approach
 4. Add offset function on image compare
 5. Fix position problem of hikyou
+
+### 22/2
+1. fix battle control bug
+2. locate arena problem
+
+### 23/2
+1. Arena is now online!

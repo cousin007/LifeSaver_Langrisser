@@ -45,7 +45,7 @@ class ImgHashAdaptor():
         area_grey = img.crop(coords).convert('L') 
         dhash = imagehash.dhash(area_grey)
         print('diff mark: ' + str(dhash - self.sample_hashes[tgt])) # debug
-        return dhash - self.sample_hashes[tgt] < 15 if True else False #return comparing result
+        return True if dhash - self.sample_hashes[tgt] < 15 else False #return comparing result
 
 
 
