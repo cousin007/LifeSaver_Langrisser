@@ -82,7 +82,7 @@ class DailyHandler(GameHandler):
             ## 第一次提示視窗
             if cpt == 0:
                 self.tap('arena_confirm')
-            time.sleep(5)
+            time.sleep(8)
 
             ## 開始戰鬥
             if not self.img_compare('battle_ready'):

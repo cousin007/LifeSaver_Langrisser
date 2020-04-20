@@ -1,5 +1,6 @@
 ############################################
 # This is the handler for time limited event
+# dev log 20/4/20: 少女的旅途
 #
 ############################################
 from GameHandler import GameHandler
@@ -15,6 +16,7 @@ class EventHandler(GameHandler):
 
         self.rounds = bundle['user_inp']['rounds']
 
+    # deprecated!
     # Wait for invitation
     # @param loop: how many rounds you want to wait
     #        interval: how many seconds for one round
@@ -40,39 +42,42 @@ class EventHandler(GameHandler):
         systime = lambda : time.strftime('%H:%M', time.localtime())
         cpt = 0
 
+        #禁中間，開選單
+        self.tap("evt_center")
+        time.sleep(2)
+        self.tap('evt_lv55')
+        time.sleep(2)
+
+        ## 食包
+        if self.img_compare('hamburger'):
+            self.eat_hamburger()
+            self.tap('evt_lv55')
+            time.sleep(2)
+
         while cpt < self.rounds:
-            print('{} [Info] 七音符 Round {} start!'.format(systime(), cpt+1))
-            ## 起始點不正確
-            if not self.img_compare('evt_nanatsu'):
-                raise Exception
+            print('{} [Info] 限時活動 Round {} start!'.format(systime(), cpt+1))
             
-            self.tap('evt_onpu')
-            time.sleep(2)
-            self.tap('evt_lv55b')
-            time.sleep(2)
-
-            ## 食包
-            if self.img_compare('hamburger'):
-                self.eat_hamburger()
-                continue
-
             ## 開始戰鬥                             
             time.sleep(5)
             if not self.img_compare('battle_ready'):
                 raise Exception
 
             ## 戰鬥結束
-            if self.battle_control(120, 10, 15):
-                for i in range(2):
-                    self.tap('battle_finish')
-                    time.sleep(3)
-
+            if self.battle_control(90, 8, 15):
+                self.tap('battle_finish')
+                time.sleep(2)
                 cpt += 1
-                print('{} [Info] 七音符 Round {} completed'.format(systime(), cpt))
+                print('{} [Info] 限時活動 Round {} completed'.format(systime(), cpt))
+
+                ## 繼續
+                if cpt < self.rounds:
+                    self.tap('battle_con')
+                else:
+                    self.tap("battle_finish")
             else:
                 raise Exception("戰鬥失敗") 
                         
-            time.sleep(10)
+            time.sleep(5)
 
 
         

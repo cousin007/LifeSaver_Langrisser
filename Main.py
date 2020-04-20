@@ -42,9 +42,9 @@ class Main():
         elif self.user_inp['service'] == 2:
             dragon = DragonHandler(self.bundle)
             dragon.run()
-        # elif self.user_inp['service'] == 3:
-        #     evtH = EventHandler(self.bundle)
-        #     evtH.run()
+        elif self.user_inp['service'] == 3:
+            evtH = EventHandler(self.bundle)
+            evtH.run()
 
 
     # Locate the active emulators on the PC
@@ -78,8 +78,6 @@ class Main():
 
         with open('./config/img_map.json','r') as f:
             self.img_map = json.load(f)
-            # for key,val in self.img_map.items():
-            #     self.img_map[key] = tuple(val)
             print("[Initial] Image Map... [OK]")
 
 
@@ -91,7 +89,7 @@ class Main():
         print('請選擇聖劍精靈:')
         print('1. 日常任務')
         print('2. 刷龍')
-        # print('3. (活動)七音符')
+        print('3. 活動')
         self.user_inp['service'] = int(input('Option: '))
 
         if self.user_inp['service'] > 1:

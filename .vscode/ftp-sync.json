@@ -1,0 +1,28 @@
+{
+    "remotePath": "/var/www/dev/",
+    "host": "s10.hkwtc.org",
+    "username": "ip",
+    "password": "idontknowwhour",
+    "port": 4460,
+    "secure": true,
+    "protocol": "sftp",
+    "uploadOnSave": true,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "passphrase": null,
+    "agent": null,
+    "allow": [],
+    "ignore": [
+        "\\.vscode",
+        "\\.git",
+        "\\.github",
+        "\\.DS_Store"
+    ],
+    "generatedFiles": {
+        "extensionsToInclude": [
+            ""
+        ],
+        "path": ""
+    }
+}

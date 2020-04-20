@@ -1,4 +1,8 @@
 {
+    "battle_start": [1205,650],
+    "battle_finish": [1185,670],
+    "battle_con": [100,600],
+
     "index_friend": [45,410],
     "index_hero": [220,660],
     "index_hikyou": [1230,235],
@@ -23,12 +27,11 @@
     "arena_start": [495,620],
     
     "evt_onpu": [870,340],
-    "evt_lv55b": [810,315],
+    "evt_lv55": [810,315],
+    "evt_center": [640,340],
 
     "level_top": [1100,620],
     "hambuger": [510,450],
-    "battle_start": [1205,650],
-    "battle_finish": [1185,670],
     "auto_btn": [1229,256],
     
     "return_btn": [100,40]
