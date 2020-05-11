@@ -49,8 +49,7 @@ class EventHandler(GameHandler):
         time.sleep(2)
 
         ## 食包
-        if self.img_compare('hamburger'):
-            self.eat_hamburger()
+        if self.check_hamburger():
             self.tap('evt_lv55')
             time.sleep(2)
 
@@ -72,6 +71,9 @@ class EventHandler(GameHandler):
                 ## 繼續
                 if cpt < self.rounds:
                     self.tap('battle_con')
+                    time.sleep(2)
+                    if self.check_hamburger():
+                        self.tap('battle_con')
                 else:
                     self.tap("battle_finish")
             else:

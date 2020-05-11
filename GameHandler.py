@@ -41,10 +41,15 @@ class GameHandler():
     def screencap(self, img_name, tgt_dir):
         self.adb.screencap(img_name + '.png', tgt_dir)
 
-    def eat_hamburger(self):
-        self.tap('hambuger')
-        time.sleep(2)
-        self.tap('level_top') #white space
+    def check_hamburger(self):
+        if self.img_compare('hamburger'):
+            self.tap('hambuger')
+            time.sleep(2)
+            self.tap('level_top') #white space
+            time.sleep(2)
+            return True
+        else:
+            return False
 
     def check_auto(self):
         loop = 5

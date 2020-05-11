@@ -1,6 +1,8 @@
 # LifeSaver_Langrisser
 
-## Development Progress
+這個是手
+
+## Development Log
 
 ### Dec 2019
 1. AnikiHandler get work
@@ -43,3 +45,6 @@
 
 ### 23/2
 1. Arena is now online!
+
+### 20/4
+1. 少女旅途event
