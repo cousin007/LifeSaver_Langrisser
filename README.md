@@ -1,6 +1,9 @@
 # LifeSaver_Langrisser
 
-這個是手
+這個是手遊的輔助器(不涉及修改遊戲內容)，主要是透過靜態的圖片對比，使用ADB(Android Debug Bridge)下達指令，從而達到自動化刷圖功能。
+程式是在PC端運作，所以要配合PC用的android模擬器使用。
+寫這個主要目的是學習用途，因此程式的功能有限，而且存在不少bug，運作不暢順等問題...
+目前已經是半棄坑的狀態，應該不會再寫了ww
 
 ## Development Log
 
